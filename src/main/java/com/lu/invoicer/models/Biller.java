@@ -10,10 +10,28 @@ public class Biller {
   @Id
   private String id;
 
-  private String name;
+  public FullName getName() {
+    return name;
+  }
+
+  public void setName(FullName name) {
+    this.name = name;
+  }
+
+  public Address getAddress() {
+    return address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
+  }
+
+  private FullName name;
 
   @Indexed(unique = true)
   private String email;
+
+  private Address address;
 
   public String getId() {
     return id;
@@ -23,13 +41,6 @@ public class Biller {
     this.id = id;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
 
   public String getEmail() {
     return email;

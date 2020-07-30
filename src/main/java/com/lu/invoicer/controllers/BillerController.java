@@ -3,9 +3,7 @@ package com.lu.invoicer.controllers;
 import com.lu.invoicer.models.Biller;
 import com.lu.invoicer.repos.BillerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -14,6 +12,12 @@ public class BillerController {
 
   @Autowired
   private BillerRepository billerRepository;
+
+  @GetMapping(value = "/test")
+  public int test(){
+    System.out.println("inside");
+    return 2;
+  }
 
   @PostMapping(value = "/biller")
   public Biller add(@RequestBody Biller biller) {
