@@ -62,8 +62,8 @@ public class JavaTokenUtils implements Serializable {
       .signWith(SignatureAlgorithm.HS512, secret).compact();
   }
   //validate token
-  public Boolean validateToken(String token, Biller biller) {
+  public Boolean validateToken(String token, UserDetails biller) {
     final String username = getUsernameFromToken(token);
-    return (username.equals(biller.getEmail()) && !isTokenExpired(token));
+    return (username.equals(biller.getUsername()) && !isTokenExpired(token));
   }
 }

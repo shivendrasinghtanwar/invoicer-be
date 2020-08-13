@@ -3,6 +3,7 @@ package com.lu.invoicer.models;
 public class BillerLoginRequest {
 
   private String username;
+  private String password;
 
   public String getPassword() {
     return password;
@@ -12,7 +13,7 @@ public class BillerLoginRequest {
     this.password = password;
   }
 
-  private String password;
+
 
   public String getUsername() {
     return username;

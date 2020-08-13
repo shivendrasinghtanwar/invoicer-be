@@ -8,11 +8,9 @@ import com.lu.invoicer.utils.JavaTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,16 +22,16 @@ public class BillerController {
   @Autowired
   private BillerRepository billerRepository;
   @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  private PasswordEncoder bCryptPasswordEncoder;
   @Autowired
   private AuthenticationManager authenticationManager;
   @Autowired
   private JavaTokenUtils jwtTokenUtil;
 
-  @GetMapping(value = "/test")
-  public int test(){
-    System.out.println("inside");
-    return 2;
+  @GetMapping(value = "/ping")
+  public String ping(){
+    System.out.println("ping called");
+    return "pong";
   }
 
   @PostMapping(value = "/api/biller")
@@ -60,31 +58,46 @@ public class BillerController {
   }
 
   @PostMapping(value = "/api/biller/login")
-  public ResponseEntity<LoginResponse> login(@RequestBody BillerLoginRequest loginRequest) throws Exception{//    authenticate(loginRequest.getUsername(),loginRequest.getPassword());
-    System.out.println(loginRequest.getUsername());
+  public ResponseEntity<?> login(@RequestBody BillerLoginRequest loginRequest) throws Exception {
+
     try{
-      Biller biller = billerRepository.findByEmail(loginRequest.getUsername());
-      System.out.println(bCryptPasswordEncoder.matches(loginRequest.getPassword(), biller.getPassword()));
-      if(bCryptPasswordEncoder.matches(loginRequest.getPassword(), biller.getPassword()))
-      {
-        System.out.println("yaha");
-        try{
-          String token = jwtTokenUtil.generateToken(biller.getId());
-          return ResponseEntity.ok(new LoginResponse(token));
-        }catch (Exception e){
-          e.printStackTrace();
-          throw e;
-        }
-
-
-      }else {
-        System.out.println("here");
-//        return new LoginResponse();
-        throw new Exception("Username or password wrong");
-      }
+      authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getPassword())
+      );
     }catch (Exception e){
-      throw new Exception("Username or password wrong");
+      throw e;
     }
 
+    Biller biller = billerRepository.findByEmail(loginRequest.getUsername());
+    String token = jwtTokenUtil.generateToken(biller.getEmail());
+    LoginResponse response = new LoginResponse();
+    response.setToken(token);
+    return ResponseEntity.ok(response);
+
   }
+/*  public ResponseEntity<?> login(@RequestBody BillerLoginRequest loginRequest) {
+    String usernameOrPasswordIncorrect = "Username or password wrong";
+    ResponseEntity response;
+    HashMap responseBody = new HashMap<String,String>();
+    try{
+      Biller biller = billerRepository.findByEmail(loginRequest.getUsername());
+      if(biller!=null){
+        if(bCryptPasswordEncoder.matches(loginRequest.getPassword(), biller.getPassword()))
+        {
+          String token = jwtTokenUtil.generateToken(biller.getId());
+          responseBody.put("token",token);
+          response = new ResponseEntity(responseBody,HttpStatus.OK);
+        }else {
+          throw new Exception(usernameOrPasswordIncorrect);
+        }
+      }else{
+        throw new Exception(usernameOrPasswordIncorrect);
+      }
+    }catch (Exception e){
+      System.out.println(e.getMessage());
+      responseBody.put("error",usernameOrPasswordIncorrect);
+      response = new ResponseEntity(responseBody,HttpStatus.FORBIDDEN);
+    }
+    return response;
+  }*/
 }
