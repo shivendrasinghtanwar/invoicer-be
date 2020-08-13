@@ -14,8 +14,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -56,6 +61,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcCon
     // make sure we use stateless session; session won't be used to
     // store user's state.
     httpSecurity
+      .cors()
+      .and()
       .csrf().disable()
       .authorizeRequests()
       .antMatchers("/api/**").permitAll()
@@ -67,11 +74,23 @@ public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcCon
     httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
   }
 
-  @Override
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOrigins(Arrays.asList("*"));
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+    configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+    configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+  }
+
+  /*@Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/api/**")
       .allowedOrigins("*")
       .allowedMethods("PUT","DELETE","POST","GET")
       .allowCredentials(false).maxAge(3600);
-  }
+  }*/
 }
