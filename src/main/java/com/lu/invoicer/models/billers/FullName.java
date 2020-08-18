@@ -1,4 +1,4 @@
-package com.lu.invoicer.models;
+package com.lu.invoicer.models.billers;
 
 public class FullName {
   private String first;

@@ -1,7 +1,7 @@
 package com.lu.invoicer.controllers;
 
-import com.lu.invoicer.models.Biller;
-import com.lu.invoicer.models.BillerLoginRequest;
+import com.lu.invoicer.models.billers.Biller;
+import com.lu.invoicer.models.billers.BillerLoginRequest;
 import com.lu.invoicer.models.LoginResponse;
 import com.lu.invoicer.repos.BillerRepository;
 import com.lu.invoicer.utils.JavaTokenUtils;
@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,29 +74,4 @@ public class BillerController {
     return ResponseEntity.ok(response);
 
   }
-/*  public ResponseEntity<?> login(@RequestBody BillerLoginRequest loginRequest) {
-    String usernameOrPasswordIncorrect = "Username or password wrong";
-    ResponseEntity response;
-    HashMap responseBody = new HashMap<String,String>();
-    try{
-      Biller biller = billerRepository.findByEmail(loginRequest.getUsername());
-      if(biller!=null){
-        if(bCryptPasswordEncoder.matches(loginRequest.getPassword(), biller.getPassword()))
-        {
-          String token = jwtTokenUtil.generateToken(biller.getId());
-          responseBody.put("token",token);
-          response = new ResponseEntity(responseBody,HttpStatus.OK);
-        }else {
-          throw new Exception(usernameOrPasswordIncorrect);
-        }
-      }else{
-        throw new Exception(usernameOrPasswordIncorrect);
-      }
-    }catch (Exception e){
-      System.out.println(e.getMessage());
-      responseBody.put("error",usernameOrPasswordIncorrect);
-      response = new ResponseEntity(responseBody,HttpStatus.FORBIDDEN);
-    }
-    return response;
-  }*/
 }

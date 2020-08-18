@@ -1,7 +1,6 @@
 package com.lu.invoicer.service;
 
-import com.lu.invoicer.models.Biller;
-import com.lu.invoicer.models.BillerDetails;
+import com.lu.invoicer.models.billers.Biller;
 import com.lu.invoicer.repos.BillerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -21,12 +20,11 @@ public class BillerDataService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     Biller biller = billerRepository.findByEmail(email);
-    System.out.println(billerRepository.findByEmail(email));
+
     if(biller!=null){
       return new User(biller.getEmail(),biller.getPassword(),new ArrayList<>());
     }else{
       throw new UsernameNotFoundException("User not found");
     }
-//    return new BillerDetails(biller);
   }
 }

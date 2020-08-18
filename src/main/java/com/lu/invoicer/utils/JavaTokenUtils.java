@@ -1,6 +1,5 @@
 package com.lu.invoicer.utils;
 
-import com.lu.invoicer.models.Biller;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

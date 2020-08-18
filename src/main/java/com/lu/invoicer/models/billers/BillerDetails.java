@@ -1,5 +1,6 @@
-package com.lu.invoicer.models;
+package com.lu.invoicer.models.billers;
 
+import com.lu.invoicer.models.billers.Biller;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
