@@ -9,11 +9,13 @@ import java.util.Collection;
 public class BillerDetails implements UserDetails {
   private String username;
   private String password;
+  private String id;
   private Boolean isEnabled;
 
   public BillerDetails(Biller biller){
     username = biller.getEmail();
     password = biller.getPassword();
+    id = biller.getId();
     isEnabled = true;
   }
 
@@ -34,21 +36,29 @@ public class BillerDetails implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return false;
+    return true;
   }
 
   @Override
   public boolean isEnabled() {
-    return isEnabled;
+    return true;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 }

@@ -12,7 +12,7 @@ public class InvoiceData {
   private Double total;
   private String freeTextOne;
   private String freeTextTwo;
-  private Integer templateNumber;
+  private Integer templateNo;
 
 
   public String getPayerName() {
@@ -80,11 +80,11 @@ public class InvoiceData {
   }
 
 
-  public Integer getTemplateNumber() {
-    return templateNumber;
+  public Integer getTemplateNo() {
+    return templateNo;
   }
 
-  public void setTemplateNumber(Integer templateNumber) {
-    this.templateNumber = templateNumber;
+  public void setTemplateNo(Integer templateNo) {
+    this.templateNo = templateNo;
   }
 }

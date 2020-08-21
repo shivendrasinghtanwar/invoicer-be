@@ -17,6 +17,12 @@ public class Invoice {
   private Double total;
   private InvoiceData data;
 
+  public Invoice(InvoiceData data, String createdBy){
+    this.data = data;
+    this.createdBy = createdBy;
+    this.createdAt = Instant.now();
+  }
+
   public String getId() {
     return id;
   }
