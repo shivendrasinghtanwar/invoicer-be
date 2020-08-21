@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 public class InvoiceData {
+
+  private String invoiceNumber;
   private String payerName;
   private String payerEmail;
   private Instant dueDate;
@@ -86,5 +88,13 @@ public class InvoiceData {
 
   public void setTemplateNo(Integer templateNo) {
     this.templateNo = templateNo;
+  }
+
+  public String getInvoiceNumber() {
+    return invoiceNumber;
+  }
+
+  public void setInvoiceNumber(String invoiceNumber) {
+    this.invoiceNumber = invoiceNumber;
   }
 }

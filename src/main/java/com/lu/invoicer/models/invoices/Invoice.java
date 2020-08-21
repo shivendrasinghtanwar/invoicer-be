@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
-@Document(collation = "invoices")
+@Document("invoice")
 public class Invoice {
 
 
