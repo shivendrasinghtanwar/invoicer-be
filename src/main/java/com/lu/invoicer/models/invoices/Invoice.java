@@ -15,6 +15,8 @@ public class Invoice {
   private Instant createdAt;
   private String createdBy;
   private Double total;
+  private InvoiceStatus status;
+  private Integer statusCode;
   private InvoiceData data;
 
   public Invoice(InvoiceData data, String createdBy){
@@ -64,4 +66,20 @@ public class Invoice {
   }
 
 
+  public InvoiceStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(InvoiceStatus status) {
+    this.status = status;
+    setStatusCode(status.getStatusCode());
+  }
+
+  public Integer getStatusCode() {
+    return statusCode;
+  }
+
+  private void setStatusCode(Integer statusCode) {
+    this.statusCode = statusCode;
+  }
 }

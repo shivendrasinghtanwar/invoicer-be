@@ -6,6 +6,7 @@ import com.lu.invoicer.models.billers.Biller;
 import com.lu.invoicer.models.billers.BillerDetails;
 import com.lu.invoicer.models.invoices.Invoice;
 import com.lu.invoicer.models.invoices.InvoiceData;
+import com.lu.invoicer.models.invoices.InvoiceStatus;
 import com.lu.invoicer.repos.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,7 +30,7 @@ public class InvoiceController {
     Authentication authenticator = SecurityContextHolder.getContext().getAuthentication();
     BillerDetails biller = (BillerDetails)authenticator.getPrincipal();
     Invoice invoice = new Invoice(invoiceData,biller.getId());
-
+    invoice.setStatus(InvoiceStatus.DATA_SAVED);
     return invoiceRepository.save(invoice);
   }
 
