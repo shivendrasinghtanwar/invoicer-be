@@ -9,12 +9,12 @@ import com.lu.invoicer.models.invoices.InvoiceData;
 import com.lu.invoicer.models.invoices.InvoiceStatus;
 import com.lu.invoicer.repos.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Map;
@@ -37,6 +37,11 @@ public class InvoiceController {
   @GetMapping(value = "/invoice")
   public List<Invoice> getAll() {
     return invoiceRepository.findAll();
+  }
+
+  @GetMapping(value = "/invoice/{id}")
+  public Invoice getOne(@PathVariable String id) {
+    return invoiceRepository.findById(id).orElseThrow();
   }
 
   @GetMapping(value = "/invoice/number/new")
