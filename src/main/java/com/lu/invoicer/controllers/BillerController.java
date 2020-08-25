@@ -1,6 +1,8 @@
 package com.lu.invoicer.controllers;
 
 import com.lu.invoicer.models.billers.Biller;
+import com.lu.invoicer.models.billers.BillerDetails;
+import com.lu.invoicer.models.billers.BillerInfo;
 import com.lu.invoicer.models.billers.BillerLoginRequest;
 import com.lu.invoicer.models.LoginResponse;
 import com.lu.invoicer.repos.BillerRepository;
@@ -9,10 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 public class BillerController {
@@ -48,6 +55,20 @@ public class BillerController {
   @GetMapping(value = "/biller/{id}")
   public Biller getOne(@PathVariable String id) {
     return billerRepository.findById(id).orElseThrow();
+  }
+
+  @GetMapping(value = "/biller/info")
+  public BillerInfo getBillerInfo() {
+    Authentication authenticator = SecurityContextHolder.getContext().getAuthentication();
+    BillerDetails biller = (BillerDetails)authenticator.getPrincipal();
+    Optional<Biller> optionalBiller = billerRepository.findById(biller.getId());
+    if(optionalBiller.isEmpty()) {
+      throw new NoSuchElementException("Biller not found");
+    }
+    else {
+      return new BillerInfo(optionalBiller.get());
+    }
+
   }
 
   @DeleteMapping(value = "/biller/{id}")
