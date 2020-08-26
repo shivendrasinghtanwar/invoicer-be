@@ -77,6 +77,13 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.github.jhonnymertz/java-wkhtmltopdf-wrapper -->
+    <dependency>
+      <groupId>com.github.jhonnymertz</groupId>
+      <artifactId>java-wkhtmltopdf-wrapper</artifactId>
+      <version>1.1.12-RELEASE</version>
+    </dependency>
+
   </dependencies>
 
   <build>

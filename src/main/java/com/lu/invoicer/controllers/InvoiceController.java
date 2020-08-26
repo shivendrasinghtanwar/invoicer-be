@@ -1,6 +1,7 @@
 package com.lu.invoicer.controllers;
 
 
+import com.lu.invoicer.core.InvoiceDataMapper;
 import com.lu.invoicer.models.StringApiResponse;
 import com.lu.invoicer.models.billers.Biller;
 import com.lu.invoicer.models.billers.BillerDetails;
@@ -24,6 +25,17 @@ public class InvoiceController {
 
   @Autowired
   InvoiceRepository invoiceRepository;
+
+  @GetMapping(value = "/api/test")
+  public String test(){
+    InvoiceDataMapper invoiceDataMapper = new InvoiceDataMapper();
+    try{
+      System.out.println(invoiceDataMapper.getTemplateString());
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+    return "OK";
+  }
 
   @PostMapping(value = "/invoice")
   public Invoice add(@RequestBody InvoiceData invoiceData) {
