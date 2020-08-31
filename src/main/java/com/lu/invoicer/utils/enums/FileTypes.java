@@ -1,5 +1,8 @@
 package com.lu.invoicer.utils.enums;
 
+import org.springframework.stereotype.Component;
+
+
 public enum FileTypes {
   PDF("pdf"),
   XML("xml"),

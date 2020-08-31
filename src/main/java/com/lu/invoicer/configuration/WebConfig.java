@@ -1,10 +1,13 @@
 package com.lu.invoicer.configuration;
 
 import com.lu.invoicer.service.BillerDataService;
+import com.lu.invoicer.utils.FilePath;
 import com.lu.invoicer.utils.JwtRequestFilter;
+import com.lu.invoicer.utils.enums.FileTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -25,6 +28,7 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@PropertySource("classpath:application.properties")
 public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
   @Autowired
@@ -53,6 +57,16 @@ public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcCon
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
   }
+
+/*
+  @Bean
+  public FilePath filePath() {
+    return new FilePath(FileTypes.HTML);
+  }
+*/
+
+
+
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     // We don't need CSRF for this example
@@ -85,5 +99,5 @@ public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcCon
     source.registerCorsConfiguration("/**", configuration);
     return source;
   }
-  
+
 }

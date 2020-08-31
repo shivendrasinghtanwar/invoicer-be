@@ -3,19 +3,16 @@ package com.lu.invoicer.controllers;
 
 import com.lu.invoicer.core.InvoiceDataMapper;
 import com.lu.invoicer.models.StringApiResponse;
-import com.lu.invoicer.models.billers.Biller;
 import com.lu.invoicer.models.billers.BillerDetails;
 import com.lu.invoicer.models.invoices.Invoice;
 import com.lu.invoicer.models.invoices.InvoiceData;
 import com.lu.invoicer.models.invoices.InvoiceStatus;
 import com.lu.invoicer.repos.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Map;
@@ -25,16 +22,19 @@ public class InvoiceController {
 
   @Autowired
   InvoiceRepository invoiceRepository;
-
+  @Autowired
+  private Environment env;
   @GetMapping(value = "/api/test")
-  public String test(){
+  public Map<String, String> test() throws Exception {
     InvoiceDataMapper invoiceDataMapper = new InvoiceDataMapper();
+    String response= "";
     try{
-      System.out.println(invoiceDataMapper.getTemplateString());
+      response = invoiceDataMapper.fillTemplate();
     }catch (Exception e){
       e.printStackTrace();
+      throw e;
     }
-    return "OK";
+    return new StringApiResponse(response).toMap();
   }
 
   @PostMapping(value = "/invoice")
